@@ -32,7 +32,7 @@ model Category {
 
 model Recipe {
   recipe_id   String             @id @default(uuid())
-  name        String             @unique
+  name        String             @unique @db.VarChar(255)
   description String
   category_id String
   category    Category           @relation(fields: [category_id], references: [category_id])
