@@ -15,6 +15,7 @@ model User {
   createdAt DateTime @default(now())
   username  String   @unique @db.VarChar(255)
   password  String
+  recipes   Recipe[]
 }
 
 model Ingredient {
@@ -37,6 +38,8 @@ model Recipe {
   category_id String
   category    Category           @relation(fields: [category_id], references: [category_id])
   ingredients RecipeIngredient[]
+  User        User?              @relation(fields: [userId], references: [id])
+  userId      String?
 }
 
 model RecipeIngredient {
