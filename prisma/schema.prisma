@@ -18,23 +18,33 @@ model User {
 }
 
 model Ingredient {
-  id       String  @id @default(uuid())
-  name     String  @unique @db.VarChar(255)
-  Recipe   Recipe? @relation(fields: [recipeId], references: [id])
-  recipeId String?
+  ingredient_id    String             @id @default(uuid())
+  name             String             @unique @db.VarChar(255)
+  recipeId         String?
+  RecipeIngredient RecipeIngredient[]
 }
 
 model Category {
-  id     String   @id @default(uuid())
-  name   String   @unique @db.VarChar(255)
-  Recipe Recipe[]
+  category_id String   @id @default(uuid())
+  name        String   @unique @db.VarChar(255)
+  Recipe      Recipe[]
 }
 
 model Recipe {
-  id          String       @id @default(uuid())
-  name        String       @unique
+  recipe_id   String             @id @default(uuid())
+  name        String             @unique
   description String
   category_id String
-  category    Category     @relation(fields: [category_id], references: [id])
-  ingredients Ingredient[]
+  category    Category           @relation(fields: [category_id], references: [category_id])
+  ingredients RecipeIngredient[]
+}
+
+model RecipeIngredient {
+  recipe_id     String     @map("recipe_id")
+  ingredient_id String     @map("ingredient_id")
+  quantity      String
+  recipe        Recipe     @relation(fields: [recipe_id], references: [recipe_id])
+  ingredient    Ingredient @relation(fields: [ingredient_id], references: [ingredient_id])
+
+  @@id([recipe_id, ingredient_id])
 }
