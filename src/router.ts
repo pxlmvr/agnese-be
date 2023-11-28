@@ -4,7 +4,9 @@ import { Router } from 'express'
 const router = Router()
 
 /* Recipes */
-router.get('/recipes', () => {})
+router.get('/recipes', (req, res) => {
+  res.json({ message: 'hello' })
+})
 router.get('/recipes/:id', () => {})
 router.put('/recipes/:id', () => {})
 router.post('/recipes', () => {})
