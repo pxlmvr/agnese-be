@@ -1,7 +1,8 @@
+import { protect } from './modules/auth'
+import cors from 'cors'
 import express from 'express'
 import morgan from 'morgan'
 import router from './router'
-import cors from 'cors'
 
 const app = express()
 
@@ -21,6 +22,6 @@ app.get('/', (_req, res) => {
   res.json({ message: 'Hello world' })
 })
 
-app.use('/api/v1', router)
+app.use('/api/v1', protect, router)
 
 export default app
