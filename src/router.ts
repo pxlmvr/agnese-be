@@ -1,6 +1,12 @@
 import { Request, Response, Router } from 'express'
-import { body, validationResult } from 'express-validator'
+import { body } from 'express-validator'
 import { handleInputErrors } from './modules/middleware'
+import {
+  createIngredient,
+  deleteIngredient,
+  getAllIngredients,
+  updateIngredient,
+} from './handlers/ingredients'
 
 // Router is not a constructor function, still it is uppercased because of old weird conventions
 const router = Router()
@@ -33,25 +39,20 @@ router.post(
 router.delete('/recipes/:id', () => {})
 
 /* Ingredients */
-router.get('/ingredients', () => {})
-// router.get('/ingredient/id', () => {})
+router.get('/ingredients', getAllIngredients)
 router.put(
   '/ingredients/:id',
   body('name').isString(),
   handleInputErrors,
-  (req: Request, res: Response) => {
-    // TODO: implement
-  }
+  updateIngredient
 )
 router.post(
   '/ingredients',
   body('name').isString(),
   handleInputErrors,
-  (req: Request, res: Response) => {
-    // TODO: implement
-  }
+  createIngredient
 )
-router.delete('/ingredients/:id', () => {})
+router.delete('/ingredients/:id', deleteIngredient)
 
 /* Categories */
 router.get('/categories', () => {})
