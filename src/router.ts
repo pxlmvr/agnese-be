@@ -7,36 +7,38 @@ import {
   getAllIngredients,
   updateIngredient,
 } from './handlers/ingredients'
+import {
+  createRecipe,
+  deleteRecipe,
+  getAllRecipes,
+  getRecipe,
+  updateRecipe,
+} from './handlers/recipes'
 
 // Router is not a constructor function, still it is uppercased because of old weird conventions
 const router = Router()
 
 /* Recipes */
-router.get('/recipes', (_req: Request, res: Response) => {
-  res.json({ message: 'hello' })
-})
-router.get('/recipes/:id', () => {})
+router.get('/recipes', getAllRecipes)
+router.get('/recipes/:id', getRecipe)
 router.put(
   '/recipes/:id',
-  body('name').isString(),
-  body('description').isString(),
-  body('category_id').isString(),
+  body('name').isString().optional(),
+  body('description').isString().optional(),
+  body('category_id').isString().optional(),
   handleInputErrors,
-  (req: Request, res: Response) => {
-    // TODO: implement
-  }
+  updateRecipe
 )
 router.post(
   '/recipes',
   body('name').isString(),
   body('description').isString(),
-  body('category_id').isString(),
+  body('ingredients').isArray().optional(),
+  body('category_id').isString().optional(),
   handleInputErrors,
-  (req: Request, res: Response) => {
-    // TODO: implement
-  }
+  createRecipe
 )
-router.delete('/recipes/:id', () => {})
+router.delete('/recipes/:id', deleteRecipe)
 
 /* Ingredients */
 router.get('/ingredients', getAllIngredients)
