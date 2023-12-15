@@ -25,6 +25,7 @@ export const updateIngredient = async (req: Request, res: Response) => {
   const updated = await prisma.ingredient.update({
     where: {
       ingredient_id: req.params.id,
+      belongsToId: req.user.id,
     },
     data: {
       name: req.body.name,
