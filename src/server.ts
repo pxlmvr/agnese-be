@@ -9,6 +9,8 @@ import express, {
 import morgan from 'morgan'
 import router from './router'
 import { createNewUser, signIn } from './handlers/user'
+import { body } from 'express-validator'
+import { handleErrors } from './handlers/errors'
 
 const app = express()
 
@@ -23,26 +25,31 @@ app.use(express.json())
 // MW to parse query parameters into an object form ('...?name=john&age=32') => {name: 'john', age: 32}
 app.use(express.urlencoded({ extended: true }))
 
-app.get('/', (_req, res) => {
-  res.json({ message: 'Hello from Agnese' })
+app.get('/', (_req, res, next) => {
+  next(
+    setTimeout(() => {
+      throw new Error('async error')
+    }, 1)
+  )
+  //res.json({ message: 'Hello from Agnese' })
 })
 
 app.use('/api/v1', protect, router)
 
-app.post('/user', createNewUser)
-app.post('/signin', signIn)
+app.post(
+  '/user',
+  body('username').isString(),
+  body('password').isString(),
+  createNewUser
+)
+app.post(
+  '/signin',
+  body('username').isString(),
+  body('password').isString(),
+  signIn
+)
 
 // Handle synchronous errors happening on any route
-app.use(
-  (
-    err: ErrorRequestHandler,
-    _req: Request,
-    res: Response,
-    _next: NextFunction
-  ): void => {
-    console.log(err)
-    res.json({ message: 'Oops there was a problem' })
-  }
-)
+app.use(handleErrors)
 
 export default app
