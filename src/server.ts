@@ -1,6 +1,11 @@
 import { protect } from './modules/auth'
 import cors from 'cors'
-import express from 'express'
+import express, {
+  ErrorRequestHandler,
+  NextFunction,
+  Request,
+  Response,
+} from 'express'
 import morgan from 'morgan'
 import router from './router'
 import { createNewUser, signIn } from './handlers/user'
@@ -19,13 +24,25 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (_req, res) => {
-  res.status(200)
-  res.json({ message: 'Hello world' })
+  res.json({ message: 'Hello from Agnese' })
 })
 
 app.use('/api/v1', protect, router)
 
 app.post('/user', createNewUser)
 app.post('/signin', signIn)
+
+// Handle synchronous errors happening on any route
+app.use(
+  (
+    err: ErrorRequestHandler,
+    _req: Request,
+    res: Response,
+    _next: NextFunction
+  ): void => {
+    console.log(err)
+    res.json({ message: 'Oops there was a problem' })
+  }
+)
 
 export default app
