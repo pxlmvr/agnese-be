@@ -13,8 +13,6 @@ declare global {
 }
 
 export const createJWT = (user: User) => {
-  console.log('current config is:', config)
-
   if (!config.secrets.jwt) {
     throw new Error('JWT_SECRET is not defined')
   }
