@@ -9,3 +9,11 @@ const PORT = 5001
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`)
 })
+
+process.on('uncaughtException', () => {
+  console.log('Oops there was an error')
+})
+
+process.on('unhandledRejection', () => {
+  console.log('Oops there was an error')
+})
