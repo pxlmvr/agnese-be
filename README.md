@@ -9,3 +9,13 @@ For development purposes the Postgres instance relies on [Render](https://dashbo
 ## Auth
 
 Users are authenticated via JWT
+
+## Testing
+
+### Unit
+
+Unit tests are handled with Jest
+
+### Integration
+
+Integration tests are handled with Supertest

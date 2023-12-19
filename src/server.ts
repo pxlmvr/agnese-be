@@ -26,12 +26,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (_req, res, next) => {
-  next(
-    setTimeout(() => {
-      throw new Error('async error')
-    }, 1)
-  )
-  //res.json({ message: 'Hello from Agnese' })
+  res.json({ message: 'Hello World' })
 })
 
 app.use('/api/v1', protect, router)
