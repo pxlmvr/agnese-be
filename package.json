@@ -4,6 +4,8 @@
   "description": "Backend for recipe app",
   "main": "app.ts",
   "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/app.js",
     "test": "jest",
     "dev": "ts-node src/app.ts"
   },
