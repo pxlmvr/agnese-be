@@ -2,6 +2,7 @@ import { User } from '@prisma/client'
 import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import * as bcrypt from 'bcrypt'
+import config from '../config'
 
 declare global {
   namespace Express {
@@ -12,13 +13,15 @@ declare global {
 }
 
 export const createJWT = (user: User) => {
-  if (!process.env.JWT_SECRET) {
+  console.log('current config is:', config)
+
+  if (!config.secrets.jwt) {
     throw new Error('JWT_SECRET is not defined')
   }
 
   const token = jwt.sign(
     { id: user.id, username: user.username },
-    process.env.JWT_SECRET
+    config.secrets.jwt
   )
 
   return token
@@ -43,7 +46,7 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
   }
 
   try {
-    const user = jwt.verify(token, process.env.JWT_SECRET!)
+    const user = jwt.verify(token, config.secrets.jwt)
 
     // Augment the response with the user data so everywhere in the stack user data can be accessed
     req.user = user

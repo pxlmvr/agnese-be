@@ -1,13 +1,12 @@
 import * as dotenv from 'dotenv'
 import app from './server'
+import config from './config'
 
 // Load variables from env files
 dotenv.config()
 
-const PORT = 5001
-
-app.listen(PORT, () => {
-  console.log(`server running on port ${PORT}`)
+app.listen(config.port, () => {
+  console.log(`server running on port ${config.port}`)
 })
 
 process.on('uncaughtException', () => {

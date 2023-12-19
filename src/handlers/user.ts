@@ -57,6 +57,7 @@ export const signIn = async (
     const token = createJWT(user)
     res.json({ token })
   } catch (error: any) {
+    console.error(error)
     error.type = 'input'
     next(error)
   }
